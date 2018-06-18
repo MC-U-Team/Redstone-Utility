@@ -3,7 +3,7 @@ package info.u_team.redstone_utility.init;
 import java.util.Set;
 
 import info.u_team.redstone_utility.RedstoneUtilityConstants;
-import info.u_team.redstone_utility.block.BlockWire;
+import info.u_team.redstone_utility.block.*;
 import net.minecraft.block.Block;
 import net.minecraft.item.*;
 import net.minecraftforge.event.RegistryEvent;
@@ -14,6 +14,7 @@ import net.minecraftforge.registries.IForgeRegistry;
 public class RedstoneUtilityBlocks {
 	
 	public static final BlockWire wire = new BlockWire();
+	public static final BlockAndGate blockandgate = new BlockAndGate();
 	
 	@Mod.EventBusSubscriber(modid = RedstoneUtilityConstants.MODID)
 	public static class Registry {
