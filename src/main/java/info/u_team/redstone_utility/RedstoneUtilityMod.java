@@ -1,6 +1,6 @@
 package info.u_team.redstone_utility;
 
-import static info.u_team.redstone_utility.TutorialConstants.*;
+import static info.u_team.redstone_utility.RedstoneUtilityConstants.*;
 
 import info.u_team.redstone_utility.proxy.CommonProxy;
 import net.minecraftforge.fml.common.*;
@@ -8,12 +8,12 @@ import net.minecraftforge.fml.common.Mod.*;
 import net.minecraftforge.fml.common.event.*;
 
 @Mod(modid = MODID, name = NAME, version = VERSION)
-public class TutorialMod {
+public class RedstoneUtilityMod {
 	
 	@Instance
-	private static TutorialMod instance;
+	private static RedstoneUtilityMod instance;
 	
-	public static TutorialMod getInstance() {
+	public static RedstoneUtilityMod getInstance() {
 		return instance;
 	}
 	

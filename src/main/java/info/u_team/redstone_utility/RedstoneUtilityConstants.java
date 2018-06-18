@@ -1,6 +1,6 @@
 package info.u_team.redstone_utility;
 
-public class TutorialConstants {
+public class RedstoneUtilityConstants {
 	
     public static final String MODID = "redstoneutility";
     public static final String NAME = "Redstone Utility";
