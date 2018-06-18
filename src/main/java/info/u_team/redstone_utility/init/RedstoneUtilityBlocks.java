@@ -3,6 +3,7 @@ package info.u_team.redstone_utility.init;
 import java.util.Set;
 
 import info.u_team.redstone_utility.RedstoneUtilityConstants;
+import info.u_team.redstone_utility.block.BlockAndGate;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -12,6 +13,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.registries.IForgeRegistry;
 
 public class RedstoneUtilityBlocks {
+	
+	public static final BlockAndGate blockandgate = new BlockAndGate();
 	
 	@Mod.EventBusSubscriber(modid = RedstoneUtilityConstants.MODID)
 	public static class Registry {
