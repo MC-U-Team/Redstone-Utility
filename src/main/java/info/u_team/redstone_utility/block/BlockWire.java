@@ -7,7 +7,7 @@ import javax.annotation.Nullable;
 import com.google.common.collect.*;
 
 import info.u_team.redstone_utility.RedstoneUtilityConstants;
-import info.u_team.redstone_utility.init.RedstoneUtilityBlocks;
+import info.u_team.redstone_utility.tileentity.TileEntityWire;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.*;
@@ -17,6 +17,7 @@ import net.minecraft.item.*;
 import net.minecraft.util.*;
 import net.minecraft.util.math.*;
 import net.minecraft.world.*;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.*;
 
 public class BlockWire extends Block {
@@ -34,11 +35,9 @@ public class BlockWire extends Block {
 	public BlockWire() {
 		super(Material.CIRCUITS);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(NORTH, BlockWire.EnumAttachPosition.NONE).withProperty(EAST, BlockWire.EnumAttachPosition.NONE).withProperty(SOUTH, BlockWire.EnumAttachPosition.NONE).withProperty(WEST, BlockWire.EnumAttachPosition.NONE).withProperty(POWER, Integer.valueOf(0)));
-		setHardness(0.0F);
-		setSoundType(SoundType.STONE);
-		setRegistryName(new ResourceLocation(RedstoneUtilityConstants.MODID, "customredstonedust"));
-		setUnlocalizedName("customredstonedust");
-		disableStats();
+		setRegistryName(new ResourceLocation(RedstoneUtilityConstants.MODID, "wire"));
+		setUnlocalizedName("wire");
+		GameRegistry.registerTileEntity(TileEntityWire.class, new ResourceLocation(RedstoneUtilityConstants.MODID, "wire"));
 	}
 	
 	/**
@@ -113,17 +112,31 @@ public class BlockWire extends Block {
 		}
 	}
 	
-	@Override
+	/**
+	 * @deprecated call via
+	 *             {@link IBlockState#getCollisionBoundingBox(IBlockAccess,BlockPos)}
+	 *             whenever possible. Implementing/overriding is fine.
+	 */
+	@Nullable
 	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos) {
 		return NULL_AABB;
 	}
 	
-	@Override
+	/**
+	 * Used to determine ambient occlusion and culling when rebuilding chunks for
+	 * render
+	 * 
+	 * @deprecated call via {@link IBlockState#isOpaqueCube()} whenever possible.
+	 *             Implementing/overriding is fine.
+	 */
 	public boolean isOpaqueCube(IBlockState state) {
 		return false;
 	}
 	
-	@Override
+	/**
+	 * @deprecated call via {@link IBlockState#isFullCube()} whenever possible.
+	 *             Implementing/overriding is fine.
+	 */
 	public boolean isFullCube(IBlockState state) {
 		return false;
 	}
@@ -381,7 +394,7 @@ public class BlockWire extends Block {
 	protected static boolean canConnectTo(IBlockState blockState, @Nullable EnumFacing side, IBlockAccess world, BlockPos pos) {
 		Block block = blockState.getBlock();
 		
-		if (block == RedstoneUtilityBlocks.wire) {
+		if (block == Blocks.REDSTONE_WIRE) {
 			return true;
 		} else if (Blocks.UNPOWERED_REPEATER.isSameDiode(blockState)) {
 			EnumFacing enumfacing = (EnumFacing) blockState.getValue(BlockRedstoneRepeater.FACING);

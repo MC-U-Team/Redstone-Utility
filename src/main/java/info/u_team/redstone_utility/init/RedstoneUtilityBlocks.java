@@ -16,8 +16,13 @@ public class RedstoneUtilityBlocks {
 	// public static final BlockWireOLD wire = new BlockWireOLD();
 	
 	public static final BlockWire wire = new BlockWire();
-	
 	public static final BlockAndGate blockandgate = new BlockAndGate();
+	public static final BlockNandGate blocknandgate = new BlockNandGate();
+	public static final BlockNorGate blocknorgate = new BlockNorGate();
+	public static final BlockNotGate blocknotgate = new BlockNotGate();
+	public static final BlockOrGate blockorgate = new BlockOrGate();
+	public static final BlockXnorGate blockxnorgate = new BlockXnorGate();
+	public static final BlockXorGate blockxorgate = new BlockXorGate();
 	
 	@Mod.EventBusSubscriber(modid = RedstoneUtilityConstants.MODID)
 	public static class Registry {
