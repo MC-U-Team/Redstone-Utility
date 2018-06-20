@@ -2,7 +2,7 @@
 	"credit": "Made with Blockbench",
 	"ambientocclusion": false,
 	"textures": {
-		"0": "redstoneutility:blocks/gates/and",
+		"5": "redstoneutility:blocks/gates/nand",
 		"slab": "blocks/stone_slab_top"
 	},
 	"elements": [
@@ -61,7 +61,7 @@
 						16,
 						16
 					],
-					"texture": "#0"
+					"texture": "#5"
 				},
 				"down": {
 					"uv": [

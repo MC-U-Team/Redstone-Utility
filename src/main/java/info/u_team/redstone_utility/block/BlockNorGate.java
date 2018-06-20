@@ -10,6 +10,5 @@ public class BlockNorGate extends Gates {
 		setUnlocalizedName("norgate");
 		setRegistryName(new ResourceLocation(RedstoneUtilityConstants.MODID, "norgate"));
 	}
-	
-	
+
 }
