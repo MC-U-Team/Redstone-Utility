@@ -13,11 +13,11 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class Gates extends Block {
+public class BlockGates extends Block {
 
 	private static final AxisAlignedBB REDSTONE_DIODE_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.125D, 1.0D);
 
-	public Gates() {
+	public BlockGates() {
 		super(Material.ROCK);
 		setCreativeTab(TAB);
 	}

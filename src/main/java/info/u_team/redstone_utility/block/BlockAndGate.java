@@ -6,7 +6,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.util.ResourceLocation;
 
-public class BlockAndGate extends Gates {
+public class BlockAndGate extends BlockGates {
 
 	public BlockAndGate() {
 		super();
