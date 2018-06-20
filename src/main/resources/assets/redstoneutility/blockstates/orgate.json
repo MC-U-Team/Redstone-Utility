@@ -1,7 +1,10 @@
 {
 	"variants": {
-		"normal": {
+		"active=false": {
 			"model": "redstoneutility:orgate"
+		},
+		"active=true": {
+			"model": "redstoneutility:orgate_on"
 		}
 	}
 }

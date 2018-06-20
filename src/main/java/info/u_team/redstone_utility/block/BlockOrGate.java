@@ -1,9 +1,10 @@
 package info.u_team.redstone_utility.block;
 
 import info.u_team.redstone_utility.RedstoneUtilityConstants;
-import net.minecraft.block.Block;
+import net.minecraft.block.*;
 import net.minecraft.block.properties.*;
 import net.minecraft.block.state.*;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.*;
@@ -56,12 +57,12 @@ public class BlockOrGate extends BlockGates {
 	public void checkInputs(World world, IBlockState state, BlockPos pos, BlockPos neighbor) {
 		EnumFacing facing = checkFacing(pos, neighbor);
 		if (facing == EnumFacing.EAST || facing == EnumFacing.WEST) {
-			int power = world.getStrongPower(neighbor, facing);
-			if (power > 0) {
+			
+			boolean power = isPowered(world, pos, state, facing);
+			if (power) {
 				world.setBlockState(pos, state.withProperty(ACTIVE, true));
 			} else {
-				BlockPos opposite = pos.offset(facing.getOpposite());
-				if (world.getStrongPower(opposite, facing.getOpposite()) == 0) {
+				if (!isPowered(world, pos, state, facing.getOpposite())) {
 					world.setBlockState(pos, state.withProperty(ACTIVE, false));
 				}
 			}
@@ -85,9 +86,21 @@ public class BlockOrGate extends BlockGates {
 	// worldIn.notifyNeighborsOfStateExcept(blockpos, this, enumfacing);
 	// }
 	
+	private boolean isPowered(World world, BlockPos pos, IBlockState state, EnumFacing facing) {
+		BlockPos blockpos = pos.offset(facing);
+		int i = world.getRedstonePower(blockpos, facing);
+		
+		if (i >= 15) {
+			return true;
+		} else {
+			IBlockState iblockstate = world.getBlockState(blockpos);
+			return Math.max(i, iblockstate.getBlock() == Blocks.REDSTONE_WIRE ? ((Integer) iblockstate.getValue(BlockRedstoneWire.POWER)).intValue() : 0) > 0;
+		}
+	}
+	
 	@Override
 	public boolean canProvidePower(IBlockState state) {
-		return state.getValue(ACTIVE);
+		return true;
 	}
 	
 	@Override
