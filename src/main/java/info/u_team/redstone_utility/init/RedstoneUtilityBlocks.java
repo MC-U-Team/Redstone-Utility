@@ -12,8 +12,10 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.registries.IForgeRegistry;
 
 public class RedstoneUtilityBlocks {
-
-	// public static final BlockWire wire = new BlockWire();
+	
+	// public static final BlockWireOLD wire = new BlockWireOLD();
+	
+	public static final BlockWire wire = new BlockWire();
 	public static final BlockAndGate blockandgate = new BlockAndGate();
 	public static final BlockNandGate blocknandgate = new BlockNandGate();
 	public static final BlockNorGate blocknorgate = new BlockNorGate();
@@ -21,18 +23,18 @@ public class RedstoneUtilityBlocks {
 	public static final BlockOrGate blockorgate = new BlockOrGate();
 	public static final BlockXnorGate blockxnorgate = new BlockXnorGate();
 	public static final BlockXorGate blockxorgate = new BlockXorGate();
-
+	
 	@Mod.EventBusSubscriber(modid = RedstoneUtilityConstants.MODID)
 	public static class Registry {
-
+		
 		public static Set<Block> blocks = InitUtil.getRegistryEntries(Block.class, RedstoneUtilityBlocks.class);
-
+		
 		@SubscribeEvent
 		public static void register(RegistryEvent.Register<Block> event) {
 			IForgeRegistry<Block> registry = event.getRegistry();
 			blocks.forEach(registry::register);
 		}
-
+		
 		@SubscribeEvent
 		public static void registeritem(RegistryEvent.Register<Item> event) {
 			IForgeRegistry<Item> registry = event.getRegistry();
