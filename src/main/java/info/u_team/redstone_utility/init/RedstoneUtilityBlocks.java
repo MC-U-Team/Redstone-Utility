@@ -13,7 +13,10 @@ import net.minecraftforge.registries.IForgeRegistry;
 
 public class RedstoneUtilityBlocks {
 	
+	// public static final BlockWireOLD wire = new BlockWireOLD();
+	
 	public static final BlockWire wire = new BlockWire();
+	
 	public static final BlockAndGate blockandgate = new BlockAndGate();
 	
 	@Mod.EventBusSubscriber(modid = RedstoneUtilityConstants.MODID)
