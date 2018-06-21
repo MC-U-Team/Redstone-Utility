@@ -33,6 +33,10 @@ public class BlockDFlipflopGate extends BlockGate {
 		return getRightSide(state) == side || getLeftSide(state) == side || getSide(state) == side;
 	}
 	
+	protected void updateActiveState(World world, IBlockState state, BlockPos pos, boolean value, boolean control) {
+		world.setBlockState(pos, state.withProperty(ACTIVE, value).withProperty(CONTROL, control));
+	}
+	
 	@Override
 	public int getMetaFromState(IBlockState state) {
 		int i = 0;
