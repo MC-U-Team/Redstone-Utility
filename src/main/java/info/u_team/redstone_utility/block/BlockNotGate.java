@@ -1,5 +1,7 @@
 package info.u_team.redstone_utility.block;
 
+import java.util.Random;
+
 import info.u_team.redstone_utility.RedstoneUtilityConstants;
 import net.minecraft.block.*;
 import net.minecraft.block.properties.*;
@@ -47,11 +49,16 @@ public class BlockNotGate extends BlockGates {
 	
 	@Override
 	public void neighborChanged(IBlockState state, World world, BlockPos pos, Block block, BlockPos neighbor) {
-		checkInputs(world, state, pos, neighbor);
+		world.updateBlockTick(pos, this, tickRate(world), 0);
 	}
 	
-	public void checkInputs(World world, IBlockState state, BlockPos pos, BlockPos neighbor) {
-		EnumFacing facing = checkFacing(pos, neighbor);
+	@Override
+	public void updateTick(World world, BlockPos pos, IBlockState state, Random rand) {
+		checkInputs(world, state, pos);
+	}
+	
+	public void checkInputs(World world, IBlockState state, BlockPos pos) {
+		EnumFacing facing = EnumFacing.SOUTH;
 		if (facing == EnumFacing.SOUTH) {
 			boolean power = isPowered(world, pos, state, facing);
 			if (power) {
