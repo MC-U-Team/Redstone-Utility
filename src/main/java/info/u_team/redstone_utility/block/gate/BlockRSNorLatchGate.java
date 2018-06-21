@@ -47,9 +47,4 @@ public class BlockRSNorLatchGate extends BlockGate {
 		}
 		return 0;
 	}
-	
-	@Override
-	public int getStrongPower(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {
-		return getWeakPower(state, world, pos, side);
-	}
 }
