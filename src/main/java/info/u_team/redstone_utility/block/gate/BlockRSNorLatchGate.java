@@ -6,15 +6,15 @@ import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.*;
 
-public class BlockRSNORLatchGate extends BlockGate {
-
-	public BlockRSNORLatchGate() {
+public class BlockRSNorLatchGate extends BlockGate {
+	
+	public BlockRSNorLatchGate() {
 		super();
 		setUnlocalizedName("rsnorlatchgate");
 		setRegistryName(new ResourceLocation(RedstoneUtilityConstants.MODID, "rsnorlatchgate"));
 		setDefaultState(getDefaultState().withProperty(ACTIVE, false));
 	}
-
+	
 	@Override
 	public void checkInputs(World world, IBlockState state, BlockPos pos) {
 		boolean powerleft = isPowered(world, pos, state, getLeftSide(state));
@@ -26,9 +26,30 @@ public class BlockRSNORLatchGate extends BlockGate {
 			updateActiveState(world, state, pos, true);
 		}
 	}
-
+	
 	@Override
 	protected boolean isValidSide(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {
 		return getRightSide(state) == side || getLeftSide(state) == side;
+	}
+	
+	@Override
+	public boolean canConnectRedstone(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {
+		boolean value = super.canConnectRedstone(state, world, pos, side);
+		return value ? true : side == state.getValue(FACING);
+	}
+	
+	@Override
+	public int getWeakPower(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {
+		if (side.getOpposite() == state.getValue(FACING) && state.getValue(ACTIVE)) {
+			return 15;
+		} else if (side == state.getValue(FACING) && !state.getValue(ACTIVE)) {
+			return 15;
+		}
+		return 0;
+	}
+	
+	@Override
+	public int getStrongPower(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {
+		return getWeakPower(state, world, pos, side);
 	}
 }
