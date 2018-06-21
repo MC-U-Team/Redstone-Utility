@@ -11,7 +11,7 @@ import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.*;
 
-public class BlockNotGate extends BlockGates {
+public class BlockNotGate extends BlockGate {
 	
 	//public static final PropertyBool ACTIVE = PropertyBool.create("active");
 	

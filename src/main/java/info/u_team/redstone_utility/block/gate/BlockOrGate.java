@@ -9,7 +9,7 @@ import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.*;
 
-public class BlockOrGate extends BlockGates {
+public class BlockOrGate extends BlockGate {
 	
 	//public static final PropertyBool ACTIVE = PropertyBool.create("active");
 	

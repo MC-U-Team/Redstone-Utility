@@ -12,16 +12,17 @@ import net.minecraft.util.math.*;
 import net.minecraft.world.*;
 import net.minecraftforge.fml.relauncher.*;
 
-public class BlockGates extends Block {
+public class BlockGate extends Block {
 	
 	protected static final PropertyBool ACTIVE = PropertyBool.create("active");
 	protected static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 	
 	protected static final AxisAlignedBB AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.0625D, 1.0D);
 	
-	public BlockGates() {
+	public BlockGate() {
 		super(Material.CIRCUITS);
 		setCreativeTab(TAB);
+		setDefaultState(getDefaultState().withProperty(ACTIVE, false));
 	}
 	
 	// Meta things
@@ -43,7 +44,7 @@ public class BlockGates extends Block {
 	
 	@Override
 	public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
-		return this.getDefaultState().withProperty(FACING, placer.getHorizontalFacing());
+		return getDefaultState().withProperty(FACING, placer.getHorizontalFacing());
 	}
 	
 	// Redstone logic
