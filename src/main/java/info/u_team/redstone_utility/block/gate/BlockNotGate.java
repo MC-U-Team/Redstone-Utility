@@ -16,13 +16,9 @@ public class BlockNotGate extends BlockGate {
 	}
 	
 	@Override
-	public void checkInputs(World world, IBlockState blockstate, BlockPos pos) {
-		boolean power = isPowered(world, pos, blockstate, blockstate.getValue(FACING).getOpposite());
-		if (power) {
-			world.setBlockState(pos, blockstate.withProperty(ACTIVE, false));
-		} else {
-			world.setBlockState(pos, blockstate.withProperty(ACTIVE, true));
-		}
+	public void checkInputs(World world, IBlockState state, BlockPos pos) {
+		boolean power = isPowered(world, pos, state, state.getValue(FACING).getOpposite());
+		updateActiveState(world, state, pos, !power);
 	}
 	
 	@Override

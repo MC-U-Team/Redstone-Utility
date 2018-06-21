@@ -121,6 +121,10 @@ public abstract class BlockGate extends Block {
 		}
 	}
 	
+	protected void updateActiveState(World world, IBlockState state, BlockPos pos, boolean value) {
+		world.setBlockState(pos, state.withProperty(ACTIVE, value));
+	}
+	
 	// Just render things and bounding box
 	
 	@Override
