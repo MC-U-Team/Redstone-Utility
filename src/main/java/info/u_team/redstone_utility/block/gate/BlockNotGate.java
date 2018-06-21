@@ -18,7 +18,7 @@ public class BlockNotGate extends BlockGate {
 	@Override
 	public void checkInputs(World world, IBlockState state, BlockPos pos) {
 		boolean power = isPowered(world, pos, state, getOppositeSide(state));
-		updateActiveState(world, state, pos, !power);
+		updateActiveState(world, state, pos, (!power));
 	}
 	
 	@Override

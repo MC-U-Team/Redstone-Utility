@@ -19,12 +19,11 @@ public class BlockOrGate extends BlockGate {
 	public void checkInputs(World world, IBlockState state, BlockPos pos) {
 		boolean powerleft = isPowered(world, pos, state, getLeftSide(state));
 		boolean powerright = isPowered(world, pos, state, getRightSide(state));
-		updateActiveState(world, state, pos, powerleft || powerright);
+		updateActiveState(world, state, pos, (powerleft || powerright));
 	}
 	
 	@Override
 	protected boolean isValidSide(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {
 		return getRightSide(state) == side || getLeftSide(state) == side;
 	}
-	
 }

@@ -13,15 +13,16 @@ public class BlockNorGate extends BlockGate {
 		setUnlocalizedName("norgate");
 		setRegistryName(new ResourceLocation(RedstoneUtilityConstants.MODID, "norgate"));
 	}
+
 	@Override
-	protected void checkInputs(World world, IBlockState state, BlockPos pos) {
-		// TODO Auto-generated method stub
-		
+	public void checkInputs(World world, IBlockState state, BlockPos pos) {
+		boolean powerleft = isPowered(world, pos, state, getLeftSide(state));
+		boolean powerright = isPowered(world, pos, state, getRightSide(state));
+		updateActiveState(world, state, pos, !(powerleft || powerright));
 	}
 	
 	@Override
 	protected boolean isValidSide(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {
-		// TODO Auto-generated method stub
-		return false;
+		return getRightSide(state) == side || getLeftSide(state) == side;
 	}
 }
