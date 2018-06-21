@@ -2,7 +2,7 @@
 	"credit": "Made with Blockbench",
 	"ambientocclusion": false,
 	"textures": {
-		"3": "redstoneutility:blocks/gates/not_on",
+		"0": "redstoneutility:blocks/gates/not_on",
 		"slab": "blocks/stone_slab_top"
 	},
 	"elements": [
@@ -17,6 +17,15 @@
 				1,
 				16
 			],
+			"rotation": {
+				"angle": 0,
+				"axis": "y",
+				"origin": [
+					8,
+					0.5,
+					8
+				]
+			},
 			"faces": {
 				"north": {
 					"uv": [
@@ -61,7 +70,8 @@
 						16,
 						16
 					],
-					"texture": "#3"
+					"texture": "#0",
+					"rotation": 180
 				},
 				"down": {
 					"uv": [
