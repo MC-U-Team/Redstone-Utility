@@ -1,10 +1,34 @@
 {
 	"variants": {
-		"active=false": {
+		"active=false,facing=south": {
+			"model": "redstoneutility:orgate",
+			"y": 180
+		},
+		"active=false,facing=west": {
+			"model": "redstoneutility:orgate",
+			"y": 270
+		},
+		"active=false,facing=north": {
 			"model": "redstoneutility:orgate"
 		},
-		"active=true": {
+		"active=false,facing=east": {
+			"model": "redstoneutility:orgate",
+			"y": 90
+		},
+		"active=true,facing=south": {
+			"model": "redstoneutility:orgate_on",
+			"y": 180
+		},
+		"active=true,facing=west": {
+			"model": "redstoneutility:orgate_on",
+			"y": 270
+		},
+		"active=true,facing=north": {
 			"model": "redstoneutility:orgate_on"
+		},
+		"active=true,facing=east": {
+			"model": "redstoneutility:orgate_on",
+			"y": 90
 		}
 	}
 }

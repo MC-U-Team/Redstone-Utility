@@ -4,24 +4,60 @@ import static info.u_team.redstone_utility.init.Tabs.TAB;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.*;
 import net.minecraft.block.state.*;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.*;
 import net.minecraft.util.math.*;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.*;
 import net.minecraftforge.fml.relauncher.*;
 
 public class BlockGates extends Block {
 	
-	private static final AxisAlignedBB REDSTONE_DIODE_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.125D, 1.0D);
+	protected static final PropertyBool ACTIVE = PropertyBool.create("active");
+	protected static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
+	
+	protected static final AxisAlignedBB AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.0625D, 1.0D);
 	
 	public BlockGates() {
 		super(Material.CIRCUITS);
 		setCreativeTab(TAB);
 	}
 	
+	// Meta things
+	
+	@Override
+	public int getMetaFromState(IBlockState state) {
+		return state.getValue(FACING).getHorizontalIndex() + (state.getValue(ACTIVE) ? 0 : 4);
+	}
+	
+	@Override
+	public IBlockState getStateFromMeta(int meta) {
+		return getDefaultState().withProperty(FACING, EnumFacing.getHorizontal(meta % 4)).withProperty(ACTIVE, meta > 3);
+	}
+	
+	@Override
+	public BlockStateContainer createBlockState() {
+		return new BlockStateContainer(this, new IProperty[] { FACING, ACTIVE });
+	}
+	
+	@Override
+	public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
+		return this.getDefaultState().withProperty(FACING, placer.getHorizontalFacing());
+	}
+	
+	// Redstone logic
+	
+	@Override
+	public int tickRate(World worldIn) {
+		return 2;
+	}
+	
+	// Just render things and bounding box
+	
 	@Override
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
-		return REDSTONE_DIODE_AABB;
+		return AABB;
 	}
 	
 	@Override
@@ -35,19 +71,19 @@ public class BlockGates extends Block {
 	}
 	
 	@Override
-	public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face) {
+	public BlockFaceShape getBlockFaceShape(IBlockAccess world, IBlockState blockstate, BlockPos pos, EnumFacing face) {
 		return face == EnumFacing.DOWN ? BlockFaceShape.SOLID : BlockFaceShape.UNDEFINED;
 	}
 	
-	@Override
 	@SideOnly(Side.CLIENT)
+	@Override
 	public BlockRenderLayer getBlockLayer() {
 		return BlockRenderLayer.CUTOUT;
 	}
 	
-	@Override
 	@SideOnly(Side.CLIENT)
-	public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
+	@Override
+	public boolean shouldSideBeRendered(IBlockState blockstate, IBlockAccess world, BlockPos pos, EnumFacing side) {
 		return side.getAxis() != EnumFacing.Axis.Y;
 	}
 	

@@ -13,7 +13,7 @@ import net.minecraft.world.*;
 
 public class BlockNotGate extends BlockGates {
 	
-	public static final PropertyBool ACTIVE = PropertyBool.create("active");
+	//public static final PropertyBool ACTIVE = PropertyBool.create("active");
 	
 	public BlockNotGate() {
 		super();
@@ -21,20 +21,20 @@ public class BlockNotGate extends BlockGates {
 		setUnlocalizedName("notgate");
 	}
 	
-	@Override
-	public int getMetaFromState(IBlockState state) {
-		return state.getValue(ACTIVE) ? 1 : 0;
-	}
-	
-	@Override
-	public IBlockState getStateFromMeta(int meta) {
-		return getDefaultState().withProperty(ACTIVE, meta == 1 ? true : false);
-	}
-	
-	@Override
-	public BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, new IProperty[] { ACTIVE });
-	}
+//	@Override
+//	public int getMetaFromState(IBlockState state) {
+//		return state.getValue(ACTIVE) ? 1 : 0;
+//	}
+//	
+//	@Override
+//	public IBlockState getStateFromMeta(int meta) {
+//		return getDefaultState().withProperty(ACTIVE, meta == 1 ? true : false);
+//	}
+//	
+//	@Override
+//	public BlockStateContainer createBlockState() {
+//		return new BlockStateContainer(this, new IProperty[] { ACTIVE });
+//	}
 	
 	@Override
 	public int tickRate(World worldIn) {

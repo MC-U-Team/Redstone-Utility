@@ -11,34 +11,34 @@ import net.minecraft.world.*;
 
 public class BlockOrGate extends BlockGates {
 	
-	public static final PropertyBool ACTIVE = PropertyBool.create("active");
+	//public static final PropertyBool ACTIVE = PropertyBool.create("active");
 	
 	public BlockOrGate() {
 		super();
 		setUnlocalizedName("orgate");
 		setRegistryName(new ResourceLocation(RedstoneUtilityConstants.MODID, "orgate"));
-		setDefaultState(getDefaultState().withProperty(ACTIVE, false));
+		//setDefaultState(getDefaultState().withProperty(ACTIVE, false));
 	}
-	
-	@Override
-	public int getMetaFromState(IBlockState state) {
-		return state.getValue(ACTIVE) ? 1 : 0;
-	}
-	
-	@Override
-	public IBlockState getStateFromMeta(int meta) {
-		return getDefaultState().withProperty(ACTIVE, meta == 1 ? true : false);
-	}
-	
-	@Override
-	public BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, new IProperty[] { ACTIVE });
-	}
-	
-	@Override
-	public int tickRate(World worldIn) {
-		return 2;
-	}
+//	
+//	@Override
+//	public int getMetaFromState(IBlockState state) {
+//		return state.getValue(ACTIVE) ? 1 : 0;
+//	}
+//	
+//	@Override
+//	public IBlockState getStateFromMeta(int meta) {
+//		return getDefaultState().withProperty(ACTIVE, meta == 1 ? true : false);
+//	}
+//	
+//	@Override
+//	public BlockStateContainer createBlockState() {
+//		return new BlockStateContainer(this, new IProperty[] { ACTIVE });
+//	}
+//	
+//	@Override
+//	public int tickRate(World worldIn) {
+//		return 2;
+//	}
 	
 	@Override
 	public void onBlockAdded(World world, BlockPos pos, IBlockState state) {
