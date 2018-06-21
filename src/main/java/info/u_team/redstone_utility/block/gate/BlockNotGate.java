@@ -1,4 +1,6 @@
-package info.u_team.redstone_utility.block;
+package info.u_team.redstone_utility.block.gate;
+
+import java.util.Random;
 
 import info.u_team.redstone_utility.RedstoneUtilityConstants;
 import net.minecraft.block.*;
@@ -9,15 +11,14 @@ import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.*;
 
-public class BlockOrGate extends BlockGates {
+public class BlockNotGate extends BlockGates {
 	
 	public static final PropertyBool ACTIVE = PropertyBool.create("active");
 	
-	public BlockOrGate() {
+	public BlockNotGate() {
 		super();
-		setUnlocalizedName("orgate");
-		setRegistryName(new ResourceLocation(RedstoneUtilityConstants.MODID, "orgate"));
-		setDefaultState(getDefaultState().withProperty(ACTIVE, false));
+		setRegistryName(new ResourceLocation(RedstoneUtilityConstants.MODID, "notgate"));
+		setUnlocalizedName("notgate");
 	}
 	
 	@Override
@@ -42,29 +43,28 @@ public class BlockOrGate extends BlockGates {
 	
 	@Override
 	public void onBlockAdded(World world, BlockPos pos, IBlockState state) {
-		BlockPos west = pos.west();
-		neighborChanged(state, world, pos, world.getBlockState(west).getBlock(), west);
-		
-		BlockPos east = pos.east();
-		neighborChanged(state, world, pos, world.getBlockState(east).getBlock(), east);
+		BlockPos south = pos.south();
+		neighborChanged(state, world, pos, world.getBlockState(south).getBlock(), south);
 	}
 	
 	@Override
 	public void neighborChanged(IBlockState state, World world, BlockPos pos, Block block, BlockPos neighbor) {
-		checkInputs(world, state, pos, neighbor);
+		world.updateBlockTick(pos, this, tickRate(world), 0);
 	}
 	
-	public void checkInputs(World world, IBlockState state, BlockPos pos, BlockPos neighbor) {
-		EnumFacing facing = checkFacing(pos, neighbor);
-		if (facing == EnumFacing.EAST || facing == EnumFacing.WEST) {
-			
+	@Override
+	public void updateTick(World world, BlockPos pos, IBlockState state, Random rand) {
+		checkInputs(world, state, pos);
+	}
+	
+	public void checkInputs(World world, IBlockState state, BlockPos pos) {
+		EnumFacing facing = EnumFacing.SOUTH;
+		if (facing == EnumFacing.SOUTH) {
 			boolean power = isPowered(world, pos, state, facing);
 			if (power) {
 				world.setBlockState(pos, state.withProperty(ACTIVE, true));
 			} else {
-				if (!isPowered(world, pos, state, facing.getOpposite())) {
-					world.setBlockState(pos, state.withProperty(ACTIVE, false));
-				}
+				world.setBlockState(pos, state.withProperty(ACTIVE, false));
 			}
 		}
 		// world.scheduleUpdate(pos.north(), this, this.tickRate(world));
@@ -105,7 +105,7 @@ public class BlockOrGate extends BlockGates {
 	
 	@Override
 	public int getWeakPower(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
-		if (side == EnumFacing.SOUTH && blockState.getValue(ACTIVE)) {
+		if (side == EnumFacing.SOUTH && !blockState.getValue(ACTIVE)) {
 			return 15;
 		}
 		return 0;
@@ -131,5 +131,4 @@ public class BlockOrGate extends BlockGates {
 		}
 		return EnumFacing.NORTH;
 	}
-	
 }

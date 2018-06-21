@@ -4,6 +4,7 @@ import java.util.Set;
 
 import info.u_team.redstone_utility.RedstoneUtilityConstants;
 import info.u_team.redstone_utility.block.*;
+import info.u_team.redstone_utility.block.gate.*;
 import net.minecraft.block.Block;
 import net.minecraft.item.*;
 import net.minecraftforge.event.RegistryEvent;
