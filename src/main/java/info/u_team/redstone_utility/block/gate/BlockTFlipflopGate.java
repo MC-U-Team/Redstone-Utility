@@ -8,21 +8,21 @@ import net.minecraft.world.*;
 
 public class BlockTFlipflopGate extends BlockGate {
 	
-	private boolean output = false;
-	
 	public BlockTFlipflopGate() {
 		super();
-		setRegistryName(new ResourceLocation(RedstoneUtilityConstants.MODID, "tflipflopgate"));
 		setUnlocalizedName("tflipflopgate");
-		setDefaultState(getDefaultState().withProperty(ACTIVE, true));
+		setRegistryName(new ResourceLocation(RedstoneUtilityConstants.MODID, "tflipflopgate"));
+		setDefaultState(getDefaultState().withProperty(ACTIVE, false));
 	}
 	
 	@Override
 	public void checkInputs(World world, IBlockState state, BlockPos pos) {
-		if(isPowered(world, pos, state, getOppositeSide(state))) {
-			output = !output;
+		boolean power = isPowered(world, pos, state, getOppositeSide(state));
+		boolean statevalue = state.getValue(ACTIVE);
+		if (power) {
+			statevalue = !statevalue;
 		}
-		updateActiveState(world, state, pos, output);
+		updateActiveState(world, state, pos, statevalue);
 	}
 	
 	@Override

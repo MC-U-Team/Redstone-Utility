@@ -66,7 +66,25 @@ public abstract class BlockGate extends Block {
 	
 	@Override
 	public void neighborChanged(IBlockState state, World world, BlockPos pos, Block block, BlockPos neighbor) {
-		world.updateBlockTick(pos, this, tickRate(world), 0);
+		if (isValidSide(state, world, pos, checkFacing(pos, neighbor).getOpposite())) {
+			world.updateBlockTick(pos, this, tickRate(world), 0);
+		}
+	}
+	
+	private EnumFacing checkFacing(BlockPos pos, BlockPos neighbor) {
+		if (pos.north().equals(neighbor)) {
+			return EnumFacing.NORTH;
+		}
+		if (pos.south().equals(neighbor)) {
+			return EnumFacing.SOUTH;
+		}
+		if (pos.west().equals(neighbor)) {
+			return EnumFacing.WEST;
+		}
+		if (pos.east().equals(neighbor)) {
+			return EnumFacing.EAST;
+		}
+		return EnumFacing.NORTH;
 	}
 	
 	// Redstone logic

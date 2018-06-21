@@ -1,0 +1,34 @@
+{
+	"variants": {
+		"active=false,facing=south": {
+			"model": "redstoneutility:tflipflopgate"
+		},
+		"active=false,facing=west": {
+			"model": "redstoneutility:tflipflopgate",
+			"y": 90
+		},
+		"active=false,facing=north": {
+			"model": "redstoneutility:tflipflopgate",
+			"y": 180
+		},
+		"active=false,facing=east": {
+			"model": "redstoneutility:tflipflopgate",
+			"y": 270
+		},
+		"active=true,facing=south": {
+			"model": "redstoneutility:tflipflopgate_on"
+		},
+		"active=true,facing=west": {
+			"model": "redstoneutility:tflipflopgate_on",
+			"y": 90
+		},
+		"active=true,facing=north": {
+			"model": "redstoneutility:tflipflopgate_on",
+			"y": 180
+		},
+		"active=true,facing=east": {
+			"model": "redstoneutility:tflipflopgate_on",
+			"y": 270
+		}
+	}
+}
