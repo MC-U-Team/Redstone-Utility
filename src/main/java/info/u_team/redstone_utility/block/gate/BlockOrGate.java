@@ -1,10 +1,8 @@
 package info.u_team.redstone_utility.block.gate;
 
 import info.u_team.redstone_utility.RedstoneUtilityConstants;
-import net.minecraft.block.*;
-import net.minecraft.block.properties.*;
-import net.minecraft.block.state.*;
-import net.minecraft.init.Blocks;
+import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.*;
@@ -19,6 +17,13 @@ public class BlockOrGate extends BlockGate {
 		setRegistryName(new ResourceLocation(RedstoneUtilityConstants.MODID, "orgate"));
 		//setDefaultState(getDefaultState().withProperty(ACTIVE, false));
 	}
+	
+	@Override
+	protected void checkInputs(World world, IBlockState state, BlockPos pos) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 //	
 //	@Override
 //	public int getMetaFromState(IBlockState state) {
@@ -86,17 +91,6 @@ public class BlockOrGate extends BlockGate {
 	// worldIn.notifyNeighborsOfStateExcept(blockpos, this, enumfacing);
 	// }
 	
-	private boolean isPowered(World world, BlockPos pos, IBlockState state, EnumFacing facing) {
-		BlockPos blockpos = pos.offset(facing);
-		int i = world.getRedstonePower(blockpos, facing);
-		
-		if (i >= 15) {
-			return true;
-		} else {
-			IBlockState iblockstate = world.getBlockState(blockpos);
-			return Math.max(i, iblockstate.getBlock() == Blocks.REDSTONE_WIRE ? iblockstate.getValue(BlockRedstoneWire.POWER).intValue() : 0) > 0;
-		}
-	}
 	
 	@Override
 	public boolean canProvidePower(IBlockState state) {
