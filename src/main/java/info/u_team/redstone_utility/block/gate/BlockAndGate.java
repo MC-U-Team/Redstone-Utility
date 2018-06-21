@@ -12,6 +12,7 @@ public class BlockAndGate extends BlockGate {
 		super();
 		setUnlocalizedName("andgate");
 		setRegistryName(new ResourceLocation(RedstoneUtilityConstants.MODID, "andgate"));
+		setDefaultState(getDefaultState().withProperty(ACTIVE, false));
 	}
 	
 	@Override

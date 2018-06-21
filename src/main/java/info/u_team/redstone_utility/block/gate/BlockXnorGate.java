@@ -12,6 +12,7 @@ public class BlockXnorGate extends BlockGate {
 		super();
 		setUnlocalizedName("xnorgate");
 		setRegistryName(new ResourceLocation(RedstoneUtilityConstants.MODID, "xnorgate"));
+		setDefaultState(getDefaultState().withProperty(ACTIVE, true));
 	}
 	
 	@Override

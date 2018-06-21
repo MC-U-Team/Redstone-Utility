@@ -12,8 +12,9 @@ public class BlockNorGate extends BlockGate {
 		super();
 		setUnlocalizedName("norgate");
 		setRegistryName(new ResourceLocation(RedstoneUtilityConstants.MODID, "norgate"));
+		setDefaultState(getDefaultState().withProperty(ACTIVE, true));
 	}
-
+	
 	@Override
 	public void checkInputs(World world, IBlockState state, BlockPos pos) {
 		boolean powerleft = isPowered(world, pos, state, getLeftSide(state));
