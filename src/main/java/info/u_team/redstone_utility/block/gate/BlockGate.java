@@ -78,10 +78,13 @@ public abstract class BlockGate extends Block {
 	
 	@Override
 	public boolean canConnectRedstone(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {
+		if (side == null || side.getHorizontalIndex() == -1) {
+			return false;
+		}
 		if (side.getOpposite() == state.getValue(FACING)) {
 			return true;
 		}
-		return false;
+		return isValidSide(state, world, pos, side);
 	}
 	
 	@Override
@@ -104,10 +107,12 @@ public abstract class BlockGate extends Block {
 	
 	protected abstract void checkInputs(World world, IBlockState state, BlockPos pos);
 	
+	protected abstract boolean isValidSide(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side);
+	
 	protected boolean isPowered(World world, BlockPos pos, IBlockState state, EnumFacing facing) {
 		BlockPos blockpos = pos.offset(facing);
-		int i = world.getRedstonePower(blockpos, facing);
-		
+		int i = world.getRedstonePower(blockpos, facing); // Copied from BlockRedstoneDiode (But this is not a god checking method as it
+															// checks many many states.
 		if (i >= 15) {
 			return true;
 		} else {

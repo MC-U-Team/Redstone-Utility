@@ -24,6 +24,12 @@ public class BlockOrGate extends BlockGate {
 		
 	}
 	
+	@Override
+	protected boolean isValidSide(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
 //	
 //	@Override
 //	public int getMetaFromState(IBlockState state) {
