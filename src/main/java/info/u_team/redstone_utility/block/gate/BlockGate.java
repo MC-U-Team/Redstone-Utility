@@ -125,6 +125,24 @@ public abstract class BlockGate extends Block {
 		world.setBlockState(pos, state.withProperty(ACTIVE, value));
 	}
 	
+	// Facing
+	
+	public EnumFacing getSide(IBlockState state) {
+		return state.getValue(FACING);
+	}
+	
+	public EnumFacing getOppositeSide(IBlockState state) {
+		return state.getValue(FACING).getOpposite();
+	}
+	
+	public EnumFacing getRightSide(IBlockState state) {
+		return state.getValue(FACING).rotateY();
+	}
+	
+	public EnumFacing getLeftSide(IBlockState state) {
+		return state.getValue(FACING).rotateYCCW();
+	}
+	
 	// Just render things and bounding box
 	
 	@Override
