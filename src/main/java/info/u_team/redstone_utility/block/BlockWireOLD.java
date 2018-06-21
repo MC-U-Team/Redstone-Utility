@@ -42,6 +42,7 @@ public class BlockWireOLD extends Block {
 		return new BlockStateContainer(this, new IProperty[] { POWERED, NORTH, SOUTH, WEST, EAST });
 	}
 	
+	@Override
 	public void onBlockAdded(World world, BlockPos pos, IBlockState state) {
 		if (world.isRemote) {
 			return;
@@ -54,6 +55,7 @@ public class BlockWireOLD extends Block {
 		}
 	}
 	
+	@Override
 	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
 		if (worldIn.isRemote) {
 			return;

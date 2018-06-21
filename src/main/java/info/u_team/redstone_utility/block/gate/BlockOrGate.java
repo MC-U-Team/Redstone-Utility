@@ -94,7 +94,7 @@ public class BlockOrGate extends BlockGates {
 			return true;
 		} else {
 			IBlockState iblockstate = world.getBlockState(blockpos);
-			return Math.max(i, iblockstate.getBlock() == Blocks.REDSTONE_WIRE ? ((Integer) iblockstate.getValue(BlockRedstoneWire.POWER)).intValue() : 0) > 0;
+			return Math.max(i, iblockstate.getBlock() == Blocks.REDSTONE_WIRE ? iblockstate.getValue(BlockRedstoneWire.POWER).intValue() : 0) > 0;
 		}
 	}
 	

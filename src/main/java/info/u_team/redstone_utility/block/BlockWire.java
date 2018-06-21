@@ -45,6 +45,8 @@ public class BlockWire extends Block {
 	 *             {@link IBlockState#getBoundingBox(IBlockAccess,BlockPos)}
 	 *             whenever possible. Implementing/overriding is fine.
 	 */
+	@Deprecated
+	@Override
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
 		return REDSTONE_WIRE_AABB[getAABBIndex(state.getActualState(source, pos))];
 	}
@@ -79,6 +81,7 @@ public class BlockWire extends Block {
 	 * Get the actual Block state of this Block at the given position. This applies
 	 * properties not visible in the metadata, such as fence connections.
 	 */
+	@Override
 	public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
 		state = state.withProperty(WEST, this.getAttachPosition(worldIn, pos, EnumFacing.WEST));
 		state = state.withProperty(EAST, this.getAttachPosition(worldIn, pos, EnumFacing.EAST));
@@ -117,6 +120,8 @@ public class BlockWire extends Block {
 	 *             {@link IBlockState#getCollisionBoundingBox(IBlockAccess,BlockPos)}
 	 *             whenever possible. Implementing/overriding is fine.
 	 */
+	@Deprecated
+	@Override
 	@Nullable
 	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos) {
 		return NULL_AABB;
@@ -129,6 +134,8 @@ public class BlockWire extends Block {
 	 * @deprecated call via {@link IBlockState#isOpaqueCube()} whenever possible.
 	 *             Implementing/overriding is fine.
 	 */
+	@Deprecated
+	@Override
 	public boolean isOpaqueCube(IBlockState state) {
 		return false;
 	}
@@ -137,6 +144,8 @@ public class BlockWire extends Block {
 	 * @deprecated call via {@link IBlockState#isFullCube()} whenever possible.
 	 *             Implementing/overriding is fine.
 	 */
+	@Deprecated
+	@Override
 	public boolean isFullCube(IBlockState state) {
 		return false;
 	}
@@ -144,6 +153,7 @@ public class BlockWire extends Block {
 	/**
 	 * Checks if this block can be placed exactly at the given position.
 	 */
+	@Override
 	public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
 		return worldIn.getBlockState(pos.down()).isSideSolid(worldIn, pos, EnumFacing.UP) || worldIn.getBlockState(pos.down()).getBlock() == Blocks.GLOWSTONE;
 	}
@@ -162,7 +172,7 @@ public class BlockWire extends Block {
 	
 	private IBlockState calculateCurrentChanges(World worldIn, BlockPos pos1, BlockPos pos2, IBlockState state) {
 		IBlockState iblockstate = state;
-		int i = ((Integer) state.getValue(POWER)).intValue();
+		int i = state.getValue(POWER).intValue();
 		int j = 0;
 		j = this.getMaxCurrentStrength(worldIn, pos2, j);
 		this.canProvidePower = false;
@@ -239,6 +249,7 @@ public class BlockWire extends Block {
 	 * Called after the block is set in the Chunk data, but before the Tile Entity
 	 * is set
 	 */
+	@Override
 	public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state) {
 		if (!worldIn.isRemote) {
 			this.updateSurroundingRedstone(worldIn, pos, state);
@@ -267,6 +278,7 @@ public class BlockWire extends Block {
 	 * Called serverside after this block is replaced with another in Chunk, but
 	 * before the Tile Entity is updated
 	 */
+	@Override
 	public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
 		super.breakBlock(worldIn, pos, state);
 		
@@ -297,7 +309,7 @@ public class BlockWire extends Block {
 		if (worldIn.getBlockState(pos).getBlock() != this) {
 			return strength;
 		} else {
-			int i = ((Integer) worldIn.getBlockState(pos).getValue(POWER)).intValue();
+			int i = worldIn.getBlockState(pos).getValue(POWER).intValue();
 			return i > strength ? i : strength;
 		}
 	}
@@ -308,6 +320,7 @@ public class BlockWire extends Block {
 	 * power is updated, cactus blocks popping off due to a neighboring solid block,
 	 * etc.
 	 */
+	@Override
 	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
 		if (!worldIn.isRemote) {
 			if (this.canPlaceBlockAt(worldIn, pos)) {
@@ -322,6 +335,7 @@ public class BlockWire extends Block {
 	/**
 	 * Get the Item that this Block should drop when harvested.
 	 */
+	@Override
 	public Item getItemDropped(IBlockState state, Random rand, int fortune) {
 		return Items.REDSTONE;
 	}
@@ -331,6 +345,8 @@ public class BlockWire extends Block {
 	 *             {@link IBlockState#getStrongPower(IBlockAccess,BlockPos,EnumFacing)}
 	 *             whenever possible. Implementing/overriding is fine.
 	 */
+	@Deprecated
+	@Override
 	public int getStrongPower(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
 		return !this.canProvidePower ? 0 : blockState.getWeakPower(blockAccess, pos, side);
 	}
@@ -340,11 +356,13 @@ public class BlockWire extends Block {
 	 *             {@link IBlockState#getWeakPower(IBlockAccess,BlockPos,EnumFacing)}
 	 *             whenever possible. Implementing/overriding is fine.
 	 */
+	@Deprecated
+	@Override
 	public int getWeakPower(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
 		if (!this.canProvidePower) {
 			return 0;
 		} else {
-			int i = ((Integer) blockState.getValue(POWER)).intValue();
+			int i = blockState.getValue(POWER).intValue();
 			
 			if (i == 0) {
 				return 0;
@@ -380,7 +398,7 @@ public class BlockWire extends Block {
 			return true;
 		} else if (canConnectTo(iblockstate, side, worldIn, pos)) {
 			return true;
-		} else if (iblockstate.getBlock() == Blocks.POWERED_REPEATER && iblockstate.getValue(BlockRedstoneDiode.FACING) == side) {
+		} else if (iblockstate.getBlock() == Blocks.POWERED_REPEATER && iblockstate.getValue(BlockHorizontal.FACING) == side) {
 			return true;
 		} else {
 			return !flag && canConnectUpwardsTo(worldIn, blockpos.down());
@@ -397,10 +415,10 @@ public class BlockWire extends Block {
 		if (block == Blocks.REDSTONE_WIRE) {
 			return true;
 		} else if (Blocks.UNPOWERED_REPEATER.isSameDiode(blockState)) {
-			EnumFacing enumfacing = (EnumFacing) blockState.getValue(BlockRedstoneRepeater.FACING);
+			EnumFacing enumfacing = blockState.getValue(BlockHorizontal.FACING);
 			return enumfacing == side || enumfacing.getOpposite() == side;
 		} else if (Blocks.OBSERVER == blockState.getBlock()) {
-			return side == blockState.getValue(BlockObserver.FACING);
+			return side == blockState.getValue(BlockDirectional.FACING);
 		} else {
 			return blockState.getBlock().canConnectRedstone(blockState, world, pos, side);
 		}
@@ -413,13 +431,15 @@ public class BlockWire extends Block {
 	 * @deprecated call via {@link IBlockState#canProvidePower()} whenever possible.
 	 *             Implementing/overriding is fine.
 	 */
+	@Deprecated
+	@Override
 	public boolean canProvidePower(IBlockState state) {
 		return this.canProvidePower;
 	}
 	
 	@SideOnly(Side.CLIENT)
 	public static int colorMultiplier(int p_176337_0_) {
-		float f = (float) p_176337_0_ / 15.0F;
+		float f = p_176337_0_ / 15.0F;
 		float f1 = f * 0.6F + 0.4F;
 		
 		if (p_176337_0_ == 0) {
@@ -449,22 +469,24 @@ public class BlockWire extends Block {
 	 * {@link randomTick} and {@link #needsRandomTick}, and will always be called
 	 * regardless of whether the block can receive random update ticks
 	 */
+	@Override
 	@SideOnly(Side.CLIENT)
 	public void randomDisplayTick(IBlockState stateIn, World worldIn, BlockPos pos, Random rand) {
-		int i = ((Integer) stateIn.getValue(POWER)).intValue();
+		int i = stateIn.getValue(POWER).intValue();
 		
 		if (i != 0) {
-			double d0 = (double) pos.getX() + 0.5D + ((double) rand.nextFloat() - 0.5D) * 0.2D;
-			double d1 = (double) ((float) pos.getY() + 0.0625F);
-			double d2 = (double) pos.getZ() + 0.5D + ((double) rand.nextFloat() - 0.5D) * 0.2D;
-			float f = (float) i / 15.0F;
+			double d0 = pos.getX() + 0.5D + (rand.nextFloat() - 0.5D) * 0.2D;
+			double d1 = pos.getY() + 0.0625F;
+			double d2 = pos.getZ() + 0.5D + (rand.nextFloat() - 0.5D) * 0.2D;
+			float f = i / 15.0F;
 			float f1 = f * 0.6F + 0.4F;
 			float f2 = Math.max(0.0F, f * f * 0.7F - 0.5F);
 			float f3 = Math.max(0.0F, f * f * 0.6F - 0.7F);
-			worldIn.spawnParticle(EnumParticleTypes.REDSTONE, d0, d1, d2, (double) f1, (double) f2, (double) f3);
+			worldIn.spawnParticle(EnumParticleTypes.REDSTONE, d0, d1, d2, f1, f2, f3);
 		}
 	}
 	
+	@Override
 	public ItemStack getItem(World worldIn, BlockPos pos, IBlockState state) {
 		return new ItemStack(Items.REDSTONE);
 	}
@@ -472,6 +494,7 @@ public class BlockWire extends Block {
 	/**
 	 * Convert the given metadata into a BlockState for this Block
 	 */
+	@Override
 	public IBlockState getStateFromMeta(int meta) {
 		return this.getDefaultState().withProperty(POWER, Integer.valueOf(meta));
 	}
@@ -481,6 +504,7 @@ public class BlockWire extends Block {
 	 * CUTOUT or CUTOUT_MIPPED for on-off transparency (glass, reeds), TRANSLUCENT
 	 * for fully blended transparency (stained glass)
 	 */
+	@Override
 	@SideOnly(Side.CLIENT)
 	public BlockRenderLayer getBlockLayer() {
 		return BlockRenderLayer.CUTOUT;
@@ -489,8 +513,9 @@ public class BlockWire extends Block {
 	/**
 	 * Convert the BlockState into the correct metadata value
 	 */
+	@Override
 	public int getMetaFromState(IBlockState state) {
-		return ((Integer) state.getValue(POWER)).intValue();
+		return state.getValue(POWER).intValue();
 	}
 	
 	/**
@@ -500,6 +525,8 @@ public class BlockWire extends Block {
 	 * @deprecated call via {@link IBlockState#withRotation(Rotation)} whenever
 	 *             possible. Implementing/overriding is fine.
 	 */
+	@Deprecated
+	@Override
 	public IBlockState withRotation(IBlockState state, Rotation rot) {
 		switch (rot) {
 		case CLOCKWISE_180:
@@ -520,6 +547,8 @@ public class BlockWire extends Block {
 	 * @deprecated call via {@link IBlockState#withMirror(Mirror)} whenever
 	 *             possible. Implementing/overriding is fine.
 	 */
+	@Deprecated
+	@Override
 	public IBlockState withMirror(IBlockState state, Mirror mirrorIn) {
 		switch (mirrorIn) {
 		case LEFT_RIGHT:
@@ -531,6 +560,7 @@ public class BlockWire extends Block {
 		}
 	}
 	
+	@Override
 	protected BlockStateContainer createBlockState() {
 		return new BlockStateContainer(this, new IProperty[] { NORTH, EAST, SOUTH, WEST, POWER });
 	}
@@ -549,6 +579,8 @@ public class BlockWire extends Block {
 	 *             {@link IBlockState#getBlockFaceShape(IBlockAccess,BlockPos,EnumFacing)}
 	 *             whenever possible. Implementing/overriding is fine.
 	 */
+	@Deprecated
+	@Override
 	public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face) {
 		return BlockFaceShape.UNDEFINED;
 	}
@@ -564,10 +596,12 @@ public class BlockWire extends Block {
 			this.name = name;
 		}
 		
+		@Override
 		public String toString() {
 			return this.getName();
 		}
 		
+		@Override
 		public String getName() {
 			return this.name;
 		}

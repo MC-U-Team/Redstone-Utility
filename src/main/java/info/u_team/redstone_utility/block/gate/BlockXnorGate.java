@@ -4,11 +4,11 @@ import info.u_team.redstone_utility.RedstoneUtilityConstants;
 import net.minecraft.util.ResourceLocation;
 
 public class BlockXnorGate extends BlockGates {
-
+	
 	public BlockXnorGate() {
 		super();
 		setUnlocalizedName("xnorgate");
 		setRegistryName(new ResourceLocation(RedstoneUtilityConstants.MODID, "xnorgate"));
 	}
-
+	
 }
