@@ -75,7 +75,7 @@ public abstract class BlockGate extends Block {
 	}
 	
 	@Override
-	public int getWeakPower(IBlockState blockstate, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
+	public int getWeakPower(IBlockState blockstate, IBlockAccess world, BlockPos pos, EnumFacing side) {
 		if (side == blockstate.getValue(FACING) && blockstate.getValue(ACTIVE)) {
 			return 15;
 		}
@@ -83,8 +83,8 @@ public abstract class BlockGate extends Block {
 	}
 	
 	@Override
-	public int getStrongPower(IBlockState blockstate, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
-		return getWeakPower(blockstate, blockAccess, pos, side);
+	public int getStrongPower(IBlockState blockstate, IBlockAccess world, BlockPos pos, EnumFacing side) {
+		return getWeakPower(blockstate, world, pos, side);
 	}
 	
 	@Override

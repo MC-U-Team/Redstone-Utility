@@ -1,7 +1,34 @@
 {
 	"variants": {
-		"normal": {
+		"active=false,facing=south": {
+			"model": "redstoneutility:notgate",
+			"y": 180
+		},
+		"active=false,facing=west": {
+			"model": "redstoneutility:notgate",
+			"y": 270
+		},
+		"active=false,facing=north": {
 			"model": "redstoneutility:notgate"
+		},
+		"active=false,facing=east": {
+			"model": "redstoneutility:notgate",
+			"y": 90
+		},
+		"active=true,facing=south": {
+			"model": "redstoneutility:notgate_on",
+			"y": 180
+		},
+		"active=true,facing=west": {
+			"model": "redstoneutility:notgate_on",
+			"y": 270
+		},
+		"active=true,facing=north": {
+			"model": "redstoneutility:notgate_on"
+		},
+		"active=true,facing=east": {
+			"model": "redstoneutility:notgate_on",
+			"y": 90
 		}
 	}
 }
