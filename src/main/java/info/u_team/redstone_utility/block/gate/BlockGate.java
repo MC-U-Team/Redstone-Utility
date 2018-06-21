@@ -17,8 +17,8 @@ import net.minecraftforge.fml.relauncher.*;
 
 public abstract class BlockGate extends Block {
 	
-	protected static final PropertyBool ACTIVE = PropertyBool.create("active");
-	protected static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
+	public static final PropertyBool ACTIVE = PropertyBool.create("active");
+	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 	
 	protected static final AxisAlignedBB AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.0625D, 1.0D);
 	
@@ -32,12 +32,18 @@ public abstract class BlockGate extends Block {
 	
 	@Override
 	public int getMetaFromState(IBlockState state) {
-		return state.getValue(FACING).getHorizontalIndex() + (state.getValue(ACTIVE) ? 0 : 4);
+		int i = 0;
+		i = i | state.getValue(FACING).getHorizontalIndex();
+		
+		if (!state.getValue(ACTIVE)) {
+			i |= 4;
+		}
+		return i;
 	}
 	
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
-		return getDefaultState().withProperty(FACING, EnumFacing.getHorizontal(meta % 4)).withProperty(ACTIVE, meta > 3);
+		return getDefaultState().withProperty(FACING, EnumFacing.getHorizontal(meta % 4)).withProperty(ACTIVE, (meta & 4) == 0);
 	}
 	
 	@Override
