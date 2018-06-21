@@ -31,8 +31,8 @@ public abstract class BlockGate extends Block {
 	// Meta things
 	
 	@Override
-	public int getMetaFromState(IBlockState blockstate) {
-		return blockstate.getValue(FACING).getHorizontalIndex() + (blockstate.getValue(ACTIVE) ? 0 : 4);
+	public int getMetaFromState(IBlockState state) {
+		return state.getValue(FACING).getHorizontalIndex() + (state.getValue(ACTIVE) ? 0 : 4);
 	}
 	
 	@Override
@@ -58,33 +58,43 @@ public abstract class BlockGate extends Block {
 	}
 	
 	@Override
-	public void onBlockAdded(World world, BlockPos pos, IBlockState blockstate) {
-		world.updateBlockTick(pos, this, tickRate(world), 0);
+	public void onBlockAdded(World world, BlockPos pos, IBlockState state) {
+		// world.updateBlockTick(pos, this, tickRate(world), 0); // Instant check or
+		// wait 2 ticks???
+		updateTick(world, pos, state, world.rand);
 	}
 	
 	@Override
-	public void neighborChanged(IBlockState blockstate, World world, BlockPos pos, Block block, BlockPos neighbor) {
+	public void neighborChanged(IBlockState state, World world, BlockPos pos, Block block, BlockPos neighbor) {
 		world.updateBlockTick(pos, this, tickRate(world), 0);
 	}
 	
 	// Redstone logic
 	
 	@Override
-	public boolean canProvidePower(IBlockState blockstate) {
+	public boolean canProvidePower(IBlockState state) {
 		return true;
 	}
 	
 	@Override
-	public int getWeakPower(IBlockState blockstate, IBlockAccess world, BlockPos pos, EnumFacing side) {
-		if (side == blockstate.getValue(FACING) && blockstate.getValue(ACTIVE)) {
+	public boolean canConnectRedstone(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {
+		if (side.getOpposite() == state.getValue(FACING)) {
+			return true;
+		}
+		return false;
+	}
+	
+	@Override
+	public int getWeakPower(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {
+		if (side.getOpposite() == state.getValue(FACING) && state.getValue(ACTIVE)) {
 			return 15;
 		}
 		return 0;
 	}
 	
 	@Override
-	public int getStrongPower(IBlockState blockstate, IBlockAccess world, BlockPos pos, EnumFacing side) {
-		return getWeakPower(blockstate, world, pos, side);
+	public int getStrongPower(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {
+		return getWeakPower(state, world, pos, side);
 	}
 	
 	@Override
@@ -94,7 +104,7 @@ public abstract class BlockGate extends Block {
 	
 	protected abstract void checkInputs(World world, IBlockState state, BlockPos pos);
 	
-	protected boolean isPowered(World world, BlockPos pos, IBlockState blockstate, EnumFacing facing) {
+	protected boolean isPowered(World world, BlockPos pos, IBlockState state, EnumFacing facing) {
 		BlockPos blockpos = pos.offset(facing);
 		int i = world.getRedstonePower(blockpos, facing);
 		
@@ -109,22 +119,22 @@ public abstract class BlockGate extends Block {
 	// Just render things and bounding box
 	
 	@Override
-	public AxisAlignedBB getBoundingBox(IBlockState blockstate, IBlockAccess source, BlockPos pos) {
+	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
 		return AABB;
 	}
 	
 	@Override
-	public boolean isFullCube(IBlockState blockstate) {
+	public boolean isFullCube(IBlockState state) {
 		return false;
 	}
 	
 	@Override
-	public boolean isOpaqueCube(IBlockState blockstate) {
+	public boolean isOpaqueCube(IBlockState state) {
 		return false;
 	}
 	
 	@Override
-	public BlockFaceShape getBlockFaceShape(IBlockAccess world, IBlockState blockstate, BlockPos pos, EnumFacing face) {
+	public BlockFaceShape getBlockFaceShape(IBlockAccess world, IBlockState state, BlockPos pos, EnumFacing face) {
 		return face == EnumFacing.DOWN ? BlockFaceShape.SOLID : BlockFaceShape.UNDEFINED;
 	}
 	
@@ -136,7 +146,7 @@ public abstract class BlockGate extends Block {
 	
 	@SideOnly(Side.CLIENT)
 	@Override
-	public boolean shouldSideBeRendered(IBlockState blockstate, IBlockAccess world, BlockPos pos, EnumFacing side) {
+	public boolean shouldSideBeRendered(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {
 		return side.getAxis() != EnumFacing.Axis.Y;
 	}
 	
