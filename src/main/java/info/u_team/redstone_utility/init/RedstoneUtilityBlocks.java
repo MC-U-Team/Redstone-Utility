@@ -25,6 +25,7 @@ public class RedstoneUtilityBlocks {
 	public static final BlockXnorGate blockxnorgate = new BlockXnorGate();
 	public static final BlockXorGate blockxorgate = new BlockXorGate();
 	public static final BlockTFlipflopGate blocktflipflopgate = new BlockTFlipflopGate();
+	public static final BlockRSNORLatchGate rsnorlatchgate = new BlockRSNORLatchGate();
 	
 	@Mod.EventBusSubscriber(modid = RedstoneUtilityConstants.MODID)
 	public static class Registry {

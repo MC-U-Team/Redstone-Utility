@@ -8,8 +8,6 @@ import net.minecraft.world.*;
 
 public class BlockTFlipflopGate extends BlockGate {
 	
-	private boolean output = false;
-	
 	public BlockTFlipflopGate() {
 		super();
 		setRegistryName(new ResourceLocation(RedstoneUtilityConstants.MODID, "tflipflopgate"));
@@ -19,9 +17,9 @@ public class BlockTFlipflopGate extends BlockGate {
 	
 	@Override
 	public void checkInputs(World world, IBlockState state, BlockPos pos) {
-		if(isPowered(world, pos, state, getOppositeSide(state))) {
-			output = !output;
-		}
+		boolean output = state.getValue(ACTIVE);
+		
+		
 		updateActiveState(world, state, pos, output);
 	}
 	
