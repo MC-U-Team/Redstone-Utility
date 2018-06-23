@@ -24,7 +24,7 @@ public class BlockDFlipflopGate extends BlockGate {
 		boolean control = isPowered(world, pos, state, getLeftSide(state)) || isPowered(world, pos, state, getRightSide(state));
 		
 		if (control && !state.getValue(CONTROL)) {
-			updateActiveState(world, state, pos, data, true);
+			updateState(world, state, pos, data, true);
 		} else if (!control) {
 			updateControlState(world, state, pos, false);
 		}
@@ -35,7 +35,7 @@ public class BlockDFlipflopGate extends BlockGate {
 		return getRightSide(state) == side || getLeftSide(state) == side || getSide(state) == side;
 	}
 	
-	protected void updateActiveState(World world, IBlockState state, BlockPos pos, boolean value, boolean control) {
+	protected void updateState(World world, IBlockState state, BlockPos pos, boolean value, boolean control) {
 		world.setBlockState(pos, state.withProperty(ACTIVE, value).withProperty(CONTROL, control));
 	}
 	
