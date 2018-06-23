@@ -16,13 +16,13 @@ public class BlockNotGate extends BlockGate {
 	}
 	
 	@Override
-	public void checkInputs(World world, IBlockState state, BlockPos pos) {
+	protected void checkInputs(World world, IBlockState state, BlockPos pos) {
 		boolean power = isPowered(world, pos, state, getOppositeSide(state));
 		updateActiveState(world, state, pos, (!power));
 	}
 	
 	@Override
 	protected boolean isValidSide(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {
-		return getSide(state) == side;
+		return getOppositeSide(state) == side;
 	}
 }

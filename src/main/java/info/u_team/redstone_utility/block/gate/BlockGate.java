@@ -72,7 +72,7 @@ public abstract class BlockGate extends Block {
 	
 	@Override
 	public void neighborChanged(IBlockState state, World world, BlockPos pos, Block block, BlockPos neighbor) {
-		if (isValidSide(state, world, pos, checkFacing(pos, neighbor).getOpposite())) {
+		if (isValidSide(state, world, pos, checkFacing(pos, neighbor))) {
 			world.updateBlockTick(pos, this, tickRate(world), 0);
 		}
 	}
@@ -102,10 +102,12 @@ public abstract class BlockGate extends Block {
 	
 	@Override
 	public boolean canConnectRedstone(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {
-		if (side == null || side.getHorizontalIndex() == -1) {
+		if (side.getHorizontalIndex() == -1) {
 			return false;
 		}
-		if (side.getOpposite() == state.getValue(FACING)) {
+		side = side.getOpposite(); // Cause this is the perspective of the block to connect we need the opposite
+									// direction for out block side
+		if (side == state.getValue(FACING)) {
 			return true;
 		}
 		return isValidSide(state, world, pos, side);

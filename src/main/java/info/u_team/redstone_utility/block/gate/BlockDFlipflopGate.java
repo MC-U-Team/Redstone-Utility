@@ -19,7 +19,7 @@ public class BlockDFlipflopGate extends BlockGate {
 	}
 	
 	@Override
-	public void checkInputs(World world, IBlockState state, BlockPos pos) {
+	protected void checkInputs(World world, IBlockState state, BlockPos pos) {
 		boolean data = isPowered(world, pos, state, getOppositeSide(state));
 		boolean control = isPowered(world, pos, state, getLeftSide(state)) || isPowered(world, pos, state, getRightSide(state));
 		
@@ -32,8 +32,10 @@ public class BlockDFlipflopGate extends BlockGate {
 	
 	@Override
 	protected boolean isValidSide(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {
-		return getRightSide(state) == side || getLeftSide(state) == side || getSide(state) == side;
+		return getRightSide(state) == side || getLeftSide(state) == side || getOppositeSide(state) == side;
 	}
+	
+	// Update Methods
 	
 	protected void updateState(World world, IBlockState state, BlockPos pos, boolean value, boolean control) {
 		world.setBlockState(pos, state.withProperty(ACTIVE, value).withProperty(CONTROL, control));
@@ -42,6 +44,8 @@ public class BlockDFlipflopGate extends BlockGate {
 	protected void updateControlState(World world, IBlockState state, BlockPos pos, boolean control) {
 		world.setBlockState(pos, state.withProperty(CONTROL, control));
 	}
+	
+	// Meta things
 	
 	@Override
 	public int getMetaFromState(IBlockState state) {

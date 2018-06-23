@@ -16,7 +16,7 @@ public class BlockNandGate extends BlockGate {
 	}
 	
 	@Override
-	public void checkInputs(World world, IBlockState state, BlockPos pos) {
+	protected void checkInputs(World world, IBlockState state, BlockPos pos) {
 		boolean powerleft = isPowered(world, pos, state, getLeftSide(state));
 		boolean powerright = isPowered(world, pos, state, getRightSide(state));
 		updateActiveState(world, state, pos, !(powerleft && powerright));

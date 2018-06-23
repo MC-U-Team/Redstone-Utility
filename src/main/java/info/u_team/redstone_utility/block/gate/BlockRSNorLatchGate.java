@@ -16,7 +16,7 @@ public class BlockRSNorLatchGate extends BlockGate {
 	}
 	
 	@Override
-	public void checkInputs(World world, IBlockState state, BlockPos pos) {
+	protected void checkInputs(World world, IBlockState state, BlockPos pos) {
 		boolean powerleft = isPowered(world, pos, state, getLeftSide(state));
 		boolean powerright = isPowered(world, pos, state, getRightSide(state));
 		if (powerleft) {
@@ -31,6 +31,8 @@ public class BlockRSNorLatchGate extends BlockGate {
 	protected boolean isValidSide(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {
 		return getRightSide(state) == side || getLeftSide(state) == side;
 	}
+	
+	// Redstone "outputs"
 	
 	@Override
 	public boolean canConnectRedstone(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {

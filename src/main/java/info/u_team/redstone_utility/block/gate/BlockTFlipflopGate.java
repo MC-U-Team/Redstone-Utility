@@ -16,7 +16,7 @@ public class BlockTFlipflopGate extends BlockGate {
 	}
 	
 	@Override
-	public void checkInputs(World world, IBlockState state, BlockPos pos) {
+	protected void checkInputs(World world, IBlockState state, BlockPos pos) {
 		boolean power = isPowered(world, pos, state, getOppositeSide(state));
 		boolean statevalue = state.getValue(ACTIVE);
 		if (power) {
@@ -27,6 +27,6 @@ public class BlockTFlipflopGate extends BlockGate {
 	
 	@Override
 	protected boolean isValidSide(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {
-		return getSide(state) == side;
+		return getOppositeSide(state) == side;
 	}
 }
