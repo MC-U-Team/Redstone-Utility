@@ -5,9 +5,9 @@ import static info.u_team.redstone_utility.RedstoneUtilityConstants.*;
 import info.u_team.redstone_utility.proxy.CommonProxy;
 import net.minecraftforge.fml.common.*;
 import net.minecraftforge.fml.common.Mod.*;
-import net.minecraftforge.fml.common.event.*;
+import net.minecraftforge.fml.common.event.*;;
 
-@Mod(modid = MODID, name = NAME, version = VERSION)
+@Mod(modid = MODID, name = NAME, version = VERSION, acceptedMinecraftVersions = MCVERSION, dependencies = DEPENDENCIES, updateJSON = UPDATEURL)
 public class RedstoneUtilityMod {
 	
 	@Instance
@@ -34,5 +34,4 @@ public class RedstoneUtilityMod {
 	public void postinit(FMLPostInitializationEvent event) {
 		proxy.postinit(event);
 	}
-	
 }

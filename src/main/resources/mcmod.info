@@ -1,0 +1,16 @@
+[
+	{
+		"modid": "redstoneutility",
+		"name": "Redstone Utility",
+		"version": "${version}",
+		"mcversion": "${mcversion}",
+		"description": "Redstone stuff",
+		"url": "https://u-team.info/mod/redstoneutility",
+		"authorList": [
+			"HyCraftHD"
+		],
+		"credits": "Team U-Team",
+		"logoFile": "assets/redstoneutility/logo.png"
+	}
+]
+
