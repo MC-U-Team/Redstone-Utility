@@ -6,12 +6,12 @@ import info.u_team.redstone_utility.tileentity.*;
 import info.u_team.u_team_core.block.UBlockTileEntity;
 import info.u_team.u_team_core.tileentity.UTileEntityProvider;
 import net.minecraft.block.material.Material;
-import net.minecraft.util.*;
+import net.minecraft.util.ResourceLocation;
 
-public class BlockMultiBitInput extends UBlockTileEntity {
+public class BlockMultiBitWireOutput extends UBlockTileEntity {
 	
-	public BlockMultiBitInput(String name) {
-		super(name, Material.CLOTH, RedstoneUtilityCreativeTabs.tab, new UTileEntityProvider(new ResourceLocation(RedstoneUtilityConstants.MODID, "multibitinput"), TileEntityMultiBitInput.class));
+	public BlockMultiBitWireOutput(String name) {
+		super(name, Material.CLOTH, RedstoneUtilityCreativeTabs.tab, new UTileEntityProvider(new ResourceLocation(RedstoneUtilityConstants.MODID, "multibitwireoutput"), TileEntityMultiBitWireOutput.class));
 	}
 	
 }
