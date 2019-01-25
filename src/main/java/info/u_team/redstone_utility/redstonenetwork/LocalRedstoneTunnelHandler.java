@@ -15,13 +15,13 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class LocalRedstoneTunnelHandler implements IRedstoneTunnelHandler {
+class LocalRedstoneTunnelHandler implements IRedstoneTunnelHandler {
 	
 	private final MutableGraph<Pair<BlockPos, Boolean>> graph;
 	
 	private World world;
 	
-	public LocalRedstoneTunnelHandler() {
+	LocalRedstoneTunnelHandler() {
 		graph = GraphBuilder.undirected().build();
 	}
 	
@@ -101,7 +101,7 @@ public class LocalRedstoneTunnelHandler implements IRedstoneTunnelHandler {
 		});
 	}
 	
-	public Set<Pair<Pair<BlockPos, Boolean>, Pair<BlockPos, Boolean>>> reachableNodesWithConnection(Pair<BlockPos, Boolean> node) {
+	private Set<Pair<Pair<BlockPos, Boolean>, Pair<BlockPos, Boolean>>> reachableNodesWithConnection(Pair<BlockPos, Boolean> node) {
 		checkArgument(graph.nodes().contains(node), "ERROR", node);
 		Set<Pair<BlockPos, Boolean>> visitedNodes = new LinkedHashSet<>();
 		Set<Pair<Pair<BlockPos, Boolean>, Pair<BlockPos, Boolean>>> finalNodePairs = new LinkedHashSet<>();
