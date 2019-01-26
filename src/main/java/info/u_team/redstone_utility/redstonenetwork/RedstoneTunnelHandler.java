@@ -39,18 +39,8 @@ public class RedstoneTunnelHandler implements IRedstoneTunnelHandler {
 	@SubscribeEvent
 	public static void on(WorldEvent.Unload event) {
 		World world = event.getWorld();
-		
 		RedstoneTunnelHandler globalhandler = ((RedstoneTunnelHandler) RedstoneTunnel.instance);
-		
-		LocalRedstoneTunnelHandler localhandler = globalhandler.getLocalHandler(world);
-		if (localhandler != null) {
-			// Do we realldy call the remove function or can we just remove the localhandler
-			// as a reference??
-			// world.loadedTileEntityList.stream().filter(tileentity -> tileentity
-			// instanceof ITunnel).map(tileentity -> (ITunnel) tileentity).forEach(tunnel ->
-			// {
-			// localhandler.remove(tunnel); // Might not have added to the network
-			// });
+		if (!world.isRemote) {
 			globalhandler.local.remove(world.provider.getDimension());
 		}
 	}

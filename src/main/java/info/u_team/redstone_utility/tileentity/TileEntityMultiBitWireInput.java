@@ -1,40 +1,20 @@
 package info.u_team.redstone_utility.tileentity;
 
 import info.u_team.redstone_utility.api.*;
+import info.u_team.redstone_utility.block.BlockMultiBitWireConnection;
 import info.u_team.u_team_core.tileentity.UTileEntity;
 import it.unimi.dsi.fastutil.ints.Int2BooleanOpenHashMap;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.*;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
-public class TileEntityMultiBitWireInput extends UTileEntity implements ITunnelConnection, ITickable {
+public class TileEntityMultiBitWireInput extends UTileEntity implements ITunnelConnection {
 	
 	private boolean addedToTunnel;
 	
-	private Int2BooleanOpenHashMap map;
-	
-	public TileEntityMultiBitWireInput() {
-		map = new Int2BooleanOpenHashMap();
-	}
-	
-	private int time;
-	
-	private int counter;
-	
-	@Override
-	public void update() {
-		if(world.isRemote) {
-			return;
-		}
-		if (time >= 100) {
-			time = 0;
-			map.put(counter, true);
-			RedstoneTunnel.instance.update(this);
-			counter++;
-		} else {
-			time++;
-		}
-	}
-	
+	// Save nbt data
 	@Override
 	public void readNBT(NBTTagCompound compound) {
 	}
@@ -43,6 +23,7 @@ public class TileEntityMultiBitWireInput extends UTileEntity implements ITunnelC
 	public void writeNBT(NBTTagCompound compound) {
 	}
 	
+	// Add this tileentity to the network
 	@Override
 	public void invalidate() {
 		super.invalidate();
@@ -72,7 +53,7 @@ public class TileEntityMultiBitWireInput extends UTileEntity implements ITunnelC
 	
 	@Override
 	public EnumFacing[] isOutput() {
-		return EnumFacing.VALUES;
+		return new EnumFacing[] { world.getBlockState(pos).getValue(BlockMultiBitWireConnection.FACING).getOpposite() };
 	}
 	
 	@Override
@@ -82,12 +63,20 @@ public class TileEntityMultiBitWireInput extends UTileEntity implements ITunnelC
 	
 	@Override
 	public Int2BooleanOpenHashMap getBits(EnumFacing side) {
+		Int2BooleanOpenHashMap map = new Int2BooleanOpenHashMap();
+		map.put(0, world.getBlockState(pos).getValue(BlockMultiBitWireConnection.POWERED).booleanValue());
 		return map;
 	}
 	
 	// We will never receive bits
 	@Override
 	public void setBits(EnumFacing side, Int2BooleanOpenHashMap bits) {
+	}
+	
+	// Prevent breaking the tileentity when the powered state is updated
+	@Override
+	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
+		return oldState.getBlock() != newState.getBlock();
 	}
 	
 }

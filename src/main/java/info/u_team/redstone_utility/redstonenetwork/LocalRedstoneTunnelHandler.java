@@ -27,7 +27,7 @@ class LocalRedstoneTunnelHandler implements IRedstoneTunnelHandler {
 	
 	// We update the world everytime we access this, cause there might be other
 	// instances of the world. This is not the best way, but otherwise it wont work
-	public void setWorld(World world) {
+	void setWorld(World world) {
 		this.world = world;
 	}
 	
@@ -67,6 +67,8 @@ class LocalRedstoneTunnelHandler implements IRedstoneTunnelHandler {
 		
 		Int2BooleanOpenHashMap bits = tunnel.getBits(facing);
 		
+//		ArrayList<Pair<ITunnelConnection, EnumFacing>> reachableNodes = new ArrayList<>();
+		
 		graph.nodes().forEach(otherPair -> {
 			BlockPos otherPos = otherPair.getLeft();
 			if (startPos.equals(otherPos)) {
@@ -82,6 +84,7 @@ class LocalRedstoneTunnelHandler implements IRedstoneTunnelHandler {
 								TileEntity tileentity = world.getTileEntity(finalPos);
 								if (tileentity instanceof ITunnelConnection) {
 									ITunnelConnection connection = (ITunnelConnection) tileentity;
+									
 									for (EnumFacing finalFacing : connection.isInput()) {
 										if (finalPos.offset(finalFacing).equals(previousPos)) {
 											connection.setBits(finalFacing, bits);
@@ -95,7 +98,6 @@ class LocalRedstoneTunnelHandler implements IRedstoneTunnelHandler {
 				} else {
 					// If its an ITunnelConnector //TODO should we allow direct connections?
 				}
-				
 				return;
 			}
 		});

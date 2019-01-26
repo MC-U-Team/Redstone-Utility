@@ -1,10 +1,14 @@
 package info.u_team.redstone_utility.tileentity;
 
 import info.u_team.redstone_utility.api.*;
+import info.u_team.redstone_utility.block.BlockMultiBitWireConnection;
 import info.u_team.u_team_core.tileentity.UTileEntity;
 import it.unimi.dsi.fastutil.ints.Int2BooleanOpenHashMap;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.*;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 public class TileEntityMultiBitWireOutput extends UTileEntity implements ITunnelConnection {
 	
@@ -52,19 +56,26 @@ public class TileEntityMultiBitWireOutput extends UTileEntity implements ITunnel
 	
 	@Override
 	public EnumFacing[] isInput() {
-		return EnumFacing.VALUES;
+		return new EnumFacing[] { world.getBlockState(pos).getValue(BlockMultiBitWireConnection.FACING).getOpposite() };
 	}
 	
+	@Override
+	public void setBits(EnumFacing side, Int2BooleanOpenHashMap bits) {
+		boolean powered = bits.get(0); // Need key
+		world.setBlockState(pos, world.getBlockState(pos).withProperty(BlockMultiBitWireConnection.POWERED, powered));
+		System.out.println(bits);
+	}
+	
+	// We will never send bits
 	@Override
 	public Int2BooleanOpenHashMap getBits(EnumFacing side) {
 		return null;
 	}
 	
-	// We will never receive bits
+	// Prevent breaking the tileentity when the powered state is updated
 	@Override
-	public void setBits(EnumFacing side, Int2BooleanOpenHashMap bits) {
-		System.out.println(side);
-		System.out.println(bits.toString());
+	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
+		return oldState.getBlock() != newState.getBlock();
 	}
 	
 }
