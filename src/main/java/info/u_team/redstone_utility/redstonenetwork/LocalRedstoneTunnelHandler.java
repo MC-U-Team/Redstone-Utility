@@ -4,7 +4,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 import java.util.*;
 
-import org.apache.commons.lang3.tuple.Pair;
+import org.apache.commons.lang3.tuple.*;
 
 import com.google.common.graph.*;
 
@@ -65,42 +65,82 @@ class LocalRedstoneTunnelHandler implements IRedstoneTunnelHandler {
 		BlockPos pos = tunnel.getPos().toImmutable();
 		BlockPos startPos = pos.offset(facing);
 		
-		Int2BooleanOpenHashMap bits = tunnel.getBits(facing);
-		
-//		ArrayList<Pair<ITunnelConnection, EnumFacing>> reachableNodes = new ArrayList<>();
-		
 		graph.nodes().forEach(otherPair -> {
 			BlockPos otherPos = otherPair.getLeft();
 			if (startPos.equals(otherPos)) {
 				
 				if (!otherPair.getRight()) { // If its not an ITunnelConnector
 					
+					ArrayList<Triple<ITunnelConnection, BlockPos, BlockPos>> reachableConnections = new ArrayList<>();
+					
 					reachableNodesWithConnection(otherPair).forEach((destination) -> {
 						BlockPos previousPos = destination.getLeft().getLeft();
 						BlockPos finalPos = destination.getRight().getLeft();
 						
-						if (!finalPos.equals(pos)) { // We don not want update to start position
+						if (!finalPos.equals(pos)) { // We dont not want update to start position
 							if (world.isBlockLoaded(finalPos)) {
 								TileEntity tileentity = world.getTileEntity(finalPos);
 								if (tileentity instanceof ITunnelConnection) {
 									ITunnelConnection connection = (ITunnelConnection) tileentity;
-									
-									for (EnumFacing finalFacing : connection.isInput()) {
-										if (finalPos.offset(finalFacing).equals(previousPos)) {
-											connection.setBits(finalFacing, bits);
-											break;
-										}
-									}
+									reachableConnections.add(Triple.of(connection, previousPos, finalPos));
 								}
 							}
 						}
 					});
+					
+					ArrayList<Int2BooleanOpenHashMap> allBits = new ArrayList<>();
+					allBits.add(tunnel.getBits(facing)); // Add original bits
+					
+					reachableConnections.forEach(triple -> {
+						
+						ITunnelConnection connection = triple.getLeft();
+						BlockPos previousPos = triple.getMiddle();
+						BlockPos finalPos = triple.getRight();
+						
+						for (EnumFacing finalFacing : connection.isOutput()) {
+							if (finalPos.offset(finalFacing).equals(previousPos)) {
+								allBits.add(connection.getBits(finalFacing));
+								break;
+							}
+						}
+					});
+					
+					Int2BooleanOpenHashMap finalBits = orBitsArray(allBits);
+					
+					reachableConnections.forEach(triple -> {
+						
+						ITunnelConnection connection = triple.getLeft();
+						BlockPos previousPos = triple.getMiddle();
+						BlockPos finalPos = triple.getRight();
+						
+						for (EnumFacing finalFacing : connection.isInput()) {
+							if (finalPos.offset(finalFacing).equals(previousPos)) {
+								connection.setBits(finalFacing, finalBits);
+								break;
+							}
+						}
+						
+					});
+					
 				} else {
 					// If its an ITunnelConnector //TODO should we allow direct connections?
 				}
 				return;
 			}
 		});
+	}
+	
+	private Int2BooleanOpenHashMap orBitsArray(ArrayList<Int2BooleanOpenHashMap> allBits) {
+		Int2BooleanOpenHashMap map = new Int2BooleanOpenHashMap();
+		allBits.forEach(bits -> {
+			bits.forEach((key, value) -> {
+				if (!value) {
+					value = map.get(key.intValue());
+				}
+				map.put(key.intValue(), value.booleanValue());
+			});
+		});
+		return map;
 	}
 	
 	private Set<Pair<Pair<BlockPos, Boolean>, Pair<BlockPos, Boolean>>> reachableNodesWithConnection(Pair<BlockPos, Boolean> node) {
