@@ -71,9 +71,9 @@ public class BlockMultiBitWireInput extends BlockMultiBitWireConnection {
 		} else if (pos.east().equals(other)) {
 			return EnumFacing.EAST;
 		} else if (pos.up().equals(other)) {
-			return EnumFacing.EAST;
+			return EnumFacing.UP;
 		} else if (pos.down().equals(other)) {
-			return EnumFacing.EAST;
+			return EnumFacing.DOWN;
 		}
 		return EnumFacing.NORTH;
 	}
