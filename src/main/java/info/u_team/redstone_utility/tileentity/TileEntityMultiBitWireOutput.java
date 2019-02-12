@@ -62,7 +62,14 @@ public class TileEntityMultiBitWireOutput extends UTileEntity implements ITunnel
 	@Override
 	public void setBits(EnumFacing side, Int2BooleanOpenHashMap bits) {
 		boolean powered = bits.get(0); // Need key
+		long startTime = System.nanoTime();
 		world.setBlockState(pos, world.getBlockState(pos).withProperty(BlockMultiBitWireConnection.POWERED, powered));
+		long endTime = System.nanoTime();
+		
+		long timeElapsed = endTime - startTime;
+		
+		System.out.println("set bits: nanoseconds: " + timeElapsed);
+		System.out.println("set bits: milliseconds: " + timeElapsed / 1000000);
 		System.out.println(bits);
 	}
 	

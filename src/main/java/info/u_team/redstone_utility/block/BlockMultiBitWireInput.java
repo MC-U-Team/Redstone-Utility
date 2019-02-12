@@ -37,7 +37,14 @@ public class BlockMultiBitWireInput extends BlockMultiBitWireConnection {
 				Pair<Boolean, TileEntity> pair = isTileEntityFromProvider(world, pos);
 				if (pair.getLeft()) {
 					TileEntityMultiBitWireInput tileentity = (TileEntityMultiBitWireInput) pair.getRight();
+					long startTime = System.nanoTime();
 					RedstoneTunnel.instance.update(tileentity, facing.getOpposite());
+					long endTime = System.nanoTime();
+					
+					long timeElapsed = endTime - startTime;
+					
+					System.out.println("nanoseconds: " + timeElapsed);
+					System.out.println("milliseconds: " + timeElapsed / 1000000);
 				}
 			}
 		}
